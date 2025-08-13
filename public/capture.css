@@ -108,3 +108,7 @@ footer {
   font-size: 0.85rem;
   color: #63707d;
 }
+
+#ip {
+  word-break: break-word;
+}

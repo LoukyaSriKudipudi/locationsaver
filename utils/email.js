@@ -8,13 +8,13 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.log("Transporter error:", error);
-  } else {
-    console.log("Server is ready to send emails");
-  }
-});
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.log("Transporter error:", error);
+//   } else {
+//     console.log("Server is ready to send emails");
+//   }
+// });
 
 // Example: sending mail
 async function sendResetEmail(toEmail, resetURL, userName = "") {

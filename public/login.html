@@ -2,23 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Login</title>
-    <link rel="stylesheet" href="login.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Location Saver | Login</title>
+    <link rel="stylesheet" href="/login.css" />
   </head>
   <body>
-    <form id="loginForm">
-      <h2>Login</h2>
-      <div>
+    <!-- Header with branding -->
+    <header class="login-header">
+      <h1>Location Saver</h1>
+      <nav>
+        <a href="/index.html">Home</a>
+        <a href="/signup.html">Signup</a>
+      </nav>
+    </header>
+
+    <!-- Login Form Container -->
+    <div class="container">
+      <form id="loginForm">
+        <h2>Login</h2>
         <input type="email" id="email" placeholder="Email" required />
         <input type="password" id="password" placeholder="Password" required />
-      </div>
-      <button type="submit">Login</button>
-      <p id="forgotPassword">
-        <a href="forgotpassword.html">Forgot Password?</a>
-      </p>
-      <p id="message"></p>
-    </form>
-
-    <script src="login.js"></script>
+        <button type="submit">Login</button>
+        <p id="forgotPassword">
+          <a href="forgotpassword.html">Forgot Password?</a>
+        </p>
+        <p id="message"></p>
+      </form>
+    </div>
+    <script src="/login.js"></script>
   </body>
 </html>

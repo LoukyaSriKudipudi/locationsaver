@@ -10,69 +10,80 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: #f7f7f8;
   color: #333;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  padding: 2rem;
+  padding: 1rem;
   min-height: 100vh;
 }
 
 /* Header */
-header.container {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 5px rgb(0 0 0 / 0.1);
-  user-select: none;
-}
-
-header.container h1 {
-  font-weight: 600;
-  font-size: 1.8rem;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
-}
-
-header.container p#welcomeMessage {
-  font-size: 1rem;
-  color: #4a5a6a;
-  margin-bottom: 1rem;
-}
-
-header.container button.btn-primary {
-  background-color: #00ad84;
+.home-header {
+  background: #008060;
   color: white;
-  border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 6px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 3px 8px rgb(0 173 132 / 0.4);
-  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
-header.container button.btn-primary:hover {
-  background-color: #00936f;
-  box-shadow: 0 4px 12px rgb(0 147 111 / 0.6);
+.home-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+@media (orientation: portrait) {
+  .home-header h1 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+}
+
+.home-header nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.home-header nav a,
+.home-header nav button {
+  background: white;
+  color: #008060;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.home-header nav a:hover,
+.home-header nav button:hover {
+  background: #006b4f;
+  color: white;
 }
 
 /* Main container */
-main {
+.container {
   max-width: 900px;
-  margin: 2rem auto 0;
+  margin: 0 auto 2rem;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 8px 16px rgb(0 0 0 / 0.05);
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.07);
   padding: 2rem;
-  user-select: none;
 }
 
 /* Section headings */
-main section h2 {
+.container section h2 {
   font-weight: 700;
   font-size: 1.5rem;
-  color: #1f2d3d;
-  margin-bottom: 1rem;
   text-align: center;
+  margin-bottom: 1rem;
+  color: #008060;
 }
 
 /* Create Link Form */
@@ -81,38 +92,48 @@ main section h2 {
   gap: 1rem;
   margin-bottom: 2rem;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 #createLinkForm input[type="text"] {
   flex-grow: 1;
   max-width: 400px;
   padding: 0.7rem 1rem;
-  font-size: 1rem;
-  border: 1.8px solid #ccc;
+  border: 1.5px solid #ccc;
   border-radius: 6px;
-  transition: border-color 0.2s ease;
+  font-size: 1rem;
 }
 
 #createLinkForm input[type="text"]:focus {
   outline: none;
-  border-color: #00ad84;
+  border-color: #008060;
+  box-shadow: 0 0 5px rgb(0 128 96 / 0.3);
 }
 
-#createLinkForm button.btn-primary {
-  padding: 0.7rem 1.8rem;
+#createLinkForm button {
+  padding: 0.7rem 1.5rem;
   font-weight: 700;
   border-radius: 6px;
+  background: #008060;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#createLinkForm button:hover {
+  background: #006b4f;
 }
 
 /* Links List */
 #linksList {
   list-style: none;
-  border-radius: 8px;
+  padding: 1rem;
   background: #f0f5f8;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 2px 10px rgb(0 0 0 / 0.05);
+  border-radius: 8px;
   max-height: 300px;
   overflow-y: auto;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.05);
 }
 
 #linksList li {
@@ -123,13 +144,19 @@ main section h2 {
   border-bottom: 1px solid #dce3e8;
 }
 
+.linkButtons {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
 #linksList li:last-child {
   border-bottom: none;
 }
 
 #linksList a {
-  font-weight: 600;
   color: #008060;
+  font-weight: 600;
   text-decoration: none;
   max-width: 70%;
   white-space: nowrap;
@@ -141,86 +168,69 @@ main section h2 {
   text-decoration: underline;
 }
 
-#linksList button {
+#linksList button,
+.copyUrlBtn {
   background: transparent;
-  border: 2px solid #00ad84;
-  color: #00ad84;
-  padding: 0.25rem 0.7rem;
-  border-radius: 6px;
+  border: 1.5px solid #008060;
+  color: #008060;
+  padding: 0.25rem 0.6rem;
+  border-radius: 5px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
   margin-left: 0.5rem;
+  transition: 0.2s ease;
 }
 
-#linksList button:hover {
-  background-color: #00ad84;
+#linksList button:hover,
+.copyUrlBtn:hover {
+  background: #008060;
   color: white;
 }
 
 /* Visits Section */
 #visitsSection {
   margin-top: 2rem;
-  display: none; /* hidden by default */
+  display: none;
 }
 
 #visitsSection h2 {
   font-weight: 700;
-  color: #1f2d3d;
+  color: #008060;
   margin-bottom: 1rem;
   text-align: center;
 }
 
-#visitsSection table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-  color: #4a5a6a;
+#visitsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
   margin-bottom: 1rem;
 }
 
-#visitsSection th,
-#visitsSection td {
-  border: 1px solid #ddd;
-  padding: 0.5rem 0.75rem;
-  text-align: left;
-}
-
-#visitsSection th {
-  background: #f0f5f8;
-  font-weight: 700;
-  color: #2c3e50;
-}
-
-#visitsSection button.btn-primary {
-  background: #00ad84;
+/* Buttons inside visits */
+#closeVisitsBtn {
+  background: #008060;
   color: white;
   border: none;
-  padding: 0.3rem 0.7rem;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   display: block;
   margin: 0 auto;
-  min-width: 120px;
 }
 
-#visitsSection button.btn-primary:hover {
-  background-color: #00936f;
+#closeVisitsBtn:hover {
+  background: #006b4f;
 }
 
 /* Responsive */
 @media (max-width: 650px) {
   #createLinkForm {
     flex-direction: column;
-    max-width: 100%;
   }
 
-  #createLinkForm input[type="text"] {
-    max-width: 100%;
-  }
-
+  #createLinkForm input[type="text"],
   #createLinkForm button {
     width: 100%;
   }
@@ -236,19 +246,11 @@ main section h2 {
   }
 }
 
-.copyUrlBtn {
-  margin-left: 0.5rem;
-  background: transparent;
-  border: 1.5px solid #00ad84;
-  color: #00ad84;
-  padding: 0.25rem 0.6rem;
-  border-radius: 5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+.visit-card p {
+  margin-bottom: 1rem;
+  word-break: break-word;
 }
 
-.copyUrlBtn:hover {
-  background-color: #00ad84;
-  color: white;
+.visit-card strong {
+  color: #006b4f;
 }

@@ -2,27 +2,42 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Signup</title>
-    <link rel="stylesheet" href="signup.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Location Saver - Signup</title>
+    <link rel="stylesheet" href="/signup.css" />
   </head>
   <body>
+    <!-- Header with App Name -->
+    <header class="signup-header">
+      <h1>Location Saver</h1>
+      <nav>
+        <a href="/index.html">Home</a>
+        <a href="/login.html">Login</a>
+      </nav>
+    </header>
+
+    <!-- Hero / Signup Intro -->
+    <section class="signup-hero">
+      <h2>Create Your Free Account</h2>
+      <p>
+        Sign up and start collecting location, IP, and device information
+        instantly.
+      </p>
+    </section>
+
+    <!-- Signup Form -->
     <div class="container">
       <h2>Signup</h2>
       <form id="signupForm">
-        <input type="text" id="name" placeholder="Name" required /><br />
-        <input type="email" id="email" placeholder="Email" required /><br />
-        <input
-          type="password"
-          id="password"
-          placeholder="Password"
-          required
-        /><br />
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
         <input
           type="password"
           id="passwordConfirm"
           placeholder="Confirm Password"
           required
-        /><br />
+        />
         <button type="submit">Signup</button>
       </form>
       <p id="message"></p>
@@ -31,6 +46,32 @@
       </button>
     </div>
 
-    <script src="signup.js"></script>
+    <!-- App Features Section -->
+    <section class="features">
+      <h2>Why Use Location Saver?</h2>
+      <div class="feature-card">
+        <h3>📍 Precise Location</h3>
+        <p>Get exact GPS coordinates (with user consent).</p>
+      </div>
+      <div class="feature-card">
+        <h3>🌐 IP & Device Info</h3>
+        <p>See IP, city, country, device type, OS, and browser.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🗺 Map & Table View</h3>
+        <p>Switch between clean tables and interactive maps.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🔒 Privacy Control</h3>
+        <p>Delete collected data anytime.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      © 2025 Location Saver | <a href="#">Privacy</a> | <a href="#">Terms</a>
+    </footer>
+
+    <script src="/signup.js"></script>
   </body>
 </html>

@@ -2,17 +2,27 @@
 const token = localStorage.getItem("token");
 if (!token) {
   window.location.href = "login.html";
-} else {
-  document.getElementById("welcomeMessage").textContent = "You are logged in!";
 }
 
-// Logout button
-document.getElementById("logoutBtn").addEventListener("click", () => {
+// Elements
+const logoutBtn = document.getElementById("logoutBtn");
+const linksListEl = document.getElementById("linksList");
+const visitsSection = document.getElementById("visitsSection");
+const visitsContainer = document.getElementById("visitsContainer");
+const selectedLinkTitle = document.getElementById("selectedLinkTitle");
+const createLinkForm = document.getElementById("createLinkForm");
+const titleInput = document.getElementById("title");
+const closeVisitsBtn = document.getElementById("closeVisitsBtn");
+
+let currentLinkId = null;
+
+// Logout
+logoutBtn.addEventListener("click", () => {
   localStorage.removeItem("token");
   window.location.href = "login.html";
 });
 
-// Fetch all links
+// API calls
 async function fetchLinks() {
   const res = await fetch("/api/v1/links", {
     headers: { Authorization: "Bearer " + token },
@@ -21,7 +31,6 @@ async function fetchLinks() {
   return data.data || [];
 }
 
-// Fetch visits for a link
 async function fetchVisits(linkId) {
   const res = await fetch(`/api/v1/links/${linkId}/visits?limit=20`, {
     headers: { Authorization: "Bearer " + token },
@@ -30,7 +39,6 @@ async function fetchVisits(linkId) {
   return data.data || [];
 }
 
-// Create new link
 async function createLink(title) {
   const res = await fetch("/api/v1/links/createLink", {
     method: "POST",
@@ -43,7 +51,6 @@ async function createLink(title) {
   return res.json();
 }
 
-// Delete link by ID
 async function deleteLink(id) {
   if (!confirm("Delete this link?")) return;
   await fetch(`/api/v1/links/${id}`, {
@@ -52,7 +59,6 @@ async function deleteLink(id) {
   });
 }
 
-// Delete visit by ID
 async function deleteVisit(id) {
   if (!confirm("Delete this visit?")) return;
   await fetch(`/api/v1/visits/${id}`, {
@@ -61,102 +67,60 @@ async function deleteVisit(id) {
   });
 }
 
-const linksListEl = document.getElementById("linksList");
-const visitsSection = document.getElementById("visitsSection");
-const visitsTableBody = document.getElementById("visitsTableBody");
-const selectedLinkTitle = document.getElementById("selectedLinkTitle");
-let currentLinkId = null;
-
+// Render links
 function renderLinks(links) {
   linksListEl.innerHTML = "";
   links.forEach((link) => {
     const li = document.createElement("li");
     li.innerHTML = `
-  <strong>
-    <a href="${link.url}" target="_blank" class="link-url">${
+      <strong>
+        <a href="${link.url}" target="_blank" class="link-url">${
       link.title || link.slug
-    }</a>
-  </strong>
-  <button data-url="${
-    link.url
-  }" class="copyUrlBtn" title="Copy URL">Copy Link</button>
-  (Visits: ${link.visitCount || 0})
-  <button data-id="${link._id}" class="viewVisitsBtn">View Visits</button>
-  <button data-id="${link._id}" class="deleteLinkBtn">Delete</button>
-`;
-
+    }</a> (Visits: ${link.visitCount || 0})
+      </strong>
+      <div class="linkButtons">
+        <button data-url="${
+          link.url
+        }" class="copyUrlBtn" title="Copy URL">Copy Link</button>
+        <button data-id="${link._id}" class="viewVisitsBtn">View Visits</button>
+        <button data-id="${link._id}" class="deleteLinkBtn">Delete</button>
+      </div>
+    `;
     linksListEl.appendChild(li);
-  });
-
-  document.querySelectorAll(".copyUrlBtn").forEach((btn) => {
-    btn.onclick = () => {
-      const urlToCopy = btn.dataset.url;
-      navigator.clipboard
-        .writeText(urlToCopy)
-        .then(() => {
-          alert("URL copied to clipboard!");
-        })
-        .catch(() => {
-          alert("Failed to copy URL.");
-        });
-    };
-  });
-
-  // Attach event listeners to view visits buttons
-  document.querySelectorAll(".viewVisitsBtn").forEach((btn) => {
-    btn.onclick = async () => {
-      currentLinkId = btn.dataset.id;
-
-      // Find the corresponding title text to show
-      const linkTitle = btn.parentElement.querySelector("strong a").textContent;
-      selectedLinkTitle.textContent = linkTitle;
-
-      visitsSection.style.display = "block";
-      await loadVisits(currentLinkId);
-    };
-  });
-
-  // Attach event listeners to delete link buttons
-  document.querySelectorAll(".deleteLinkBtn").forEach((btn) => {
-    btn.onclick = async () => {
-      const id = btn.dataset.id;
-      await deleteLink(id);
-      await loadAndRenderLinks();
-      visitsSection.style.display = "none";
-    };
   });
 }
 
+// Load visits
 async function loadVisits(linkId) {
   const visits = await fetchVisits(linkId);
-  // visitsTableBody.innerHTML = "";
-
-  const visitsContainer = document.getElementById("visitsContainer");
   visitsContainer.innerHTML = "";
 
   visits.forEach((v) => {
     const card = document.createElement("div");
     card.className = "visit-card";
-    card.style = `
-    border: 1px solid #ccc;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: relative;
-  `;
+    card.style.cssText = `
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: relative;
+      margin-bottom: 1rem;
+    `;
+
     if (v.ip) {
       card.innerHTML = `
-    <p><strong>IP:</strong> ${v.ip || "N/A"}</p>
-    <p><strong>City:</strong> ${v.city || "N/A"}</p>
-    <p><strong>Region:</strong> ${v.region || "N/A"}</p>
-    <p><strong>Country:</strong> ${v.country || "N/A"}</p>
-    <p><strong>Visit Time:</strong> ${
-      v.timestamp ? new Date(v.timestamp).toLocaleString() : "N/A"
-    }</p>
-    <p style="max-width: 100%" title="${v.useragent || "N/A"}">
-      <strong>User Agent:</strong> ${v.useragent || "N/A"}
-    </p>
-    <button data-id="${v._id}" class="deleteVisitBtn" style="
+        <p><strong>IP:</strong> ${v.ip || "N/A"}</p>
+        <p><strong>City:</strong> ${v.city || "N/A"}</p>
+        <p><strong>Region:</strong> ${v.region || "N/A"}</p>
+        <p><strong>Country:</strong> ${v.country || "N/A"}</p>
+        <p><strong>Visit Time:</strong> ${
+          v.timestamp ? new Date(v.timestamp).toLocaleString() : "N/A"
+        }</p>
+        <p title="${v.useragent || "N/A"}"><strong>User Agent:</strong> ${
+        v.useragent || "N/A"
+      }</p>
+        <button data-id="${v._id}" 
+        style="
       position: absolute;
       top: 10px;
       right: 10px;
@@ -167,30 +131,28 @@ async function loadVisits(linkId) {
       border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
-    ">Delete</button>
-  `;
+    " class="deleteVisitBtn">Delete</button>
+      `;
     } else {
       card.innerHTML = `
-    <p><strong>Latitude and Longitude:</strong> ${
-      v.coords ? v.coords.lat + ", " + v.coords.lng : "N/A"
-    }</p>
-    <p><strong>GPS Address:</strong> ${v.gpsAddress || "N/A"}</p>
-    <p><strong>Visit Time:</strong> ${
-      v.timestamp ? new Date(v.timestamp).toLocaleString() : "N/A"
-    }</p>
-      
-     <iframe
-    width="100%"
-    height="300"
-    frameborder="0"
-    style="border:0; border-radius: 10px;"
-    src="https://maps.google.com/maps?q=${v.coords.lat},${
+        <p><strong>Latitude and Longitude:</strong> ${
+          v.coords ? v.coords.lat + ", " + v.coords.lng : "N/A"
+        }</p>
+        <p><strong>GPS Address:</strong> ${v.gpsAddress || "N/A"}</p>
+        <p><strong>Visit Time:</strong> ${
+          v.timestamp ? new Date(v.timestamp).toLocaleString() : "N/A"
+        }</p>
+        <iframe
+          width="100%"
+          height="300"
+          frameborder="0"
+          style="border:0; border-radius: 10px;"
+          src="https://maps.google.com/maps?q=${v.coords.lat},${
         v.coords.lng
       }&z=14&output=embed"
-    allowfullscreen>
-  </iframe>
-    
-    <button data-id="${v._id}" class="deleteVisitBtn" style="
+          allowfullscreen>
+        </iframe>
+        <button style="
       position: absolute;
       top: 10px;
       right: 10px;
@@ -201,45 +163,76 @@ async function loadVisits(linkId) {
       border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
-    ">Delete</button>
-  `;
+    " data-id="${v._id}" class="deleteVisitBtn">Delete</button>
+      `;
     }
-    visitsContainer.appendChild(card);
-  });
 
-  // Attach delete visit buttons listeners
-  document.querySelectorAll(".deleteVisitBtn").forEach((btn) => {
-    btn.onclick = async () => {
-      const id = btn.dataset.id;
-      await deleteVisit(id);
-      await loadVisits(linkId);
-    };
+    visitsContainer.appendChild(card);
   });
 }
 
+// Load & render links
 async function loadAndRenderLinks() {
   const links = await fetchLinks();
   renderLinks(links);
 }
 
-// Handle form submission for creating new link
-document.getElementById("createLinkForm").onsubmit = async (e) => {
-  e.preventDefault();
-  const titleInput = document.getElementById("title");
-  const title = titleInput.value.trim();
-  if (!title) {
-    alert("Enter a title");
-    return;
+// Event delegation for links list
+linksListEl.addEventListener("click", async (e) => {
+  const target = e.target;
+
+  // Copy URL
+  if (target.classList.contains("copyUrlBtn")) {
+    navigator.clipboard.writeText(target.dataset.url).then(() => {
+      alert("URL copied to clipboard!");
+    });
   }
+
+  // View Visits
+  if (target.classList.contains("viewVisitsBtn")) {
+    currentLinkId = target.dataset.id;
+    const linkTitle = target
+      .closest("li")
+      .querySelector("strong a").textContent;
+    selectedLinkTitle.textContent = linkTitle;
+    visitsSection.style.display = "block";
+    await loadVisits(currentLinkId);
+  }
+
+  // Delete Link
+  if (target.classList.contains("deleteLinkBtn")) {
+    const id = target.dataset.id;
+    await deleteLink(id);
+    await loadAndRenderLinks();
+    visitsSection.style.display = "none";
+  }
+});
+
+// Event delegation for delete visit buttons
+visitsContainer.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("deleteVisitBtn")) {
+    const id = e.target.dataset.id;
+    await deleteVisit(id);
+    if (currentLinkId) await loadVisits(currentLinkId);
+  }
+});
+
+// Handle create link form
+createLinkForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const title = titleInput.value.trim();
+  if (!title) return alert("Enter a title");
   await createLink(title);
   titleInput.value = "";
   await loadAndRenderLinks();
-};
+});
 
-// Close visits section button
-document.getElementById("closeVisitsBtn").onclick = () => {
+// Close visits section
+closeVisitsBtn.addEventListener("click", () => {
   visitsSection.style.display = "none";
-};
+});
 
-// Initial load of links
+// Initial load
 loadAndRenderLinks();
+
+// <!-- desgined by loukya sri kudipudi -->

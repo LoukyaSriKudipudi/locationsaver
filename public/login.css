@@ -1,48 +1,78 @@
-/* Base & reset */
+/* Reset */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
+
 body {
-  margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: #f7f7f8;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
   color: #2c3e50;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  padding: 0;
 }
 
-form {
+/* Header */
+.login-header {
+  width: 100%;
+  background: #008060;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 5px rgb(0 0 0 / 0.1);
+}
+
+.login-header h1 {
+  font-size: 1.5rem;
+  white-space: nowrap;
+  flex-shrink: 1;
+}
+
+.login-header nav {
+  display: flex;
+  gap: 1rem;
+  flex-shrink: 1;
+}
+
+.login-header nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-header nav a:hover {
+  opacity: 0.8;
+}
+
+/* Form container */
+.container {
   background: #fff;
-  padding: 2.5rem 2rem 3rem;
+  padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 6px 18px rgb(0 0 0 / 0.07);
-  width: 320px;
+  width: 90%;
+  max-width: 400px;
+  margin: 2rem auto;
   text-align: center;
-  user-select: none;
 }
 
+/* Form elements */
 h2 {
-  font-weight: 700;
-  font-size: 1.8rem;
-  margin-bottom: 1.75rem;
-  color: #008060; /* MongoDB green accent */
+  color: #008060;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
 }
 
 input {
   width: 100%;
   padding: 12px 14px;
-  margin-bottom: 1.2rem;
-  border: 1.8px solid #ccc;
+  margin-bottom: 1rem;
+  border: 1.5px solid #ccc;
   border-radius: 6px;
-  font-size: 15px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  font-weight: 500;
+  font-size: 1rem;
 }
 
 input:focus {
@@ -61,23 +91,53 @@ button {
   font-size: 1.1rem;
   color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  user-select: none;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: #006b4f;
-  box-shadow: 0 6px 16px rgb(0 107 79 / 0.5);
-}
-
-#message {
-  margin-top: 1rem;
-  font-size: 14px;
-  color: #d9534f;
-  min-height: 1.2em;
-  user-select: text;
 }
 
 #forgotPassword {
-  margin-top: 1em;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+}
+
+#forgotPassword a {
+  color: #008060;
+  text-decoration: none;
+}
+
+#forgotPassword a:hover {
+  text-decoration: underline;
+}
+
+#message {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: #d9534f;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+  .login-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .login-header nav {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  input,
+  button {
+    font-size: 1rem;
+    padding: 10px;
+  }
 }

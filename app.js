@@ -63,4 +63,10 @@ app.get("/r/:slug", linkController.getCapture);
 app.use("/r", visitRoutes);
 app.use(express.static(path.join(__dirname, "public")));
 
+app.get("/ping", (req, res) => {
+  res.status(200).json({
+    status: "success",
+  });
+});
+
 module.exports = app;

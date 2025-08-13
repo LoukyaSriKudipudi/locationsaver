@@ -1,0 +1,110 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #f7f7f8;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 2rem;
+}
+
+/* Container */
+.capture-container {
+  max-width: 700px;
+  margin: auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgb(0 0 0 / 0.05);
+}
+
+/* Heading */
+.capture-container h2 {
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #1f2d3d;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.capture-container p.notice {
+  color: #4a5a6a;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Info list */
+.info-list {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.info-list li {
+  background: #f7f7f8;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-label {
+  color: #34495e;
+}
+
+.info-value {
+  color: #008060; /* MongoDB green */
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 0 0.5rem;
+  min-width: 150px;
+}
+
+.btn-primary {
+  background-color: #00ad84;
+  color: #fff;
+  box-shadow: 0 3px 8px rgb(0 173 132 / 0.4);
+}
+
+.btn-primary:hover {
+  background-color: #00936f;
+  box-shadow: 0 4px 12px rgb(0 147 111 / 0.6);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #00ad84;
+  color: #00ad84;
+}
+
+.btn-secondary:hover {
+  background: #00ad84;
+  color: white;
+  border-color: #00ad84;
+}
+
+/* Footer small text */
+footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #63707d;
+}

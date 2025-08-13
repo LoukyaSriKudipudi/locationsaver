@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  </head>
+  <body>
+    <header class="container" style="text-align: center; margin-bottom: 2rem">
+      <h1>Welcome to the Home Page</h1>
+      <p id="welcomeMessage">Loading...</p>
+      <button id="logoutBtn" class="btn-primary" style="margin-top: 1rem">
+        Logout
+      </button>
+    </header>
+
+    <main>
+      <section aria-label="Create new link and list of links">
+        <h2 style="text-align: center; margin-bottom: 1rem">Your Links</h2>
+
+        <form
+          id="createLinkForm"
+          autocomplete="off"
+          aria-label="Create link form"
+        >
+          <input
+            type="text"
+            id="title"
+            placeholder="Link Title"
+            required
+            aria-required="true"
+            aria-describedby="titleHelp"
+          />
+          <button type="submit" class="btn-primary">Create Link</button>
+        </form>
+
+        <ul
+          id="linksList"
+          aria-live="polite"
+          aria-relevant="additions removals"
+        ></ul>
+      </section>
+
+      <section
+        id="visitsSection"
+        style="display: none"
+        aria-label="Visits data"
+      >
+        <h2>Visits for <span id="selectedLinkTitle"></span></h2>
+
+        <div
+          id="visitsContainer"
+          style="display: flex; flex-wrap: wrap; gap: 1rem"
+        ></div>
+
+        <button id="closeVisitsBtn" class="btn-primary">Close</button>
+      </section>
+    </main>
+
+    <script src="home.js"></script>
+  </body>
+</html>

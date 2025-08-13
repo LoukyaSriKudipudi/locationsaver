@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Location Capture</title>
+    <link rel="stylesheet" href="/capture.css" />
+  </head>
+  <body>
+    <div class="capture-container">
+      <h2>Share Your Location</h2>
+      <p class="notice">
+        We will collect your precise location only with your consent.
+      </p>
+
+      <h3>IP-based Info</h3>
+      <ul class="info-list" id="ip-info">
+        <li>
+          <span class="info-label">IP:</span>
+          <span class="info-value" id="ip">Loading...</span>
+        </li>
+        <li>
+          <span class="info-label">City:</span>
+          <span class="info-value" id="ip-city">Loading...</span>
+        </li>
+        <li>
+          <span class="info-label">Region:</span>
+          <span class="info-value" id="ip-region">Loading...</span>
+        </li>
+        <li>
+          <span class="info-label">Country:</span>
+          <span class="info-value" id="ip-country">Loading...</span>
+        </li>
+        <li>
+          <span class="info-label">Org:</span>
+          <span class="info-value" id="ip-org">Loading...</span>
+        </li>
+        <li>
+          <span class="info-label">Timezone:</span>
+          <span class="info-value" id="ip-timezone">Loading...</span>
+        </li>
+        <li>
+          <span class="info-label">Approx. Coordinates:</span>
+          <span class="info-value" id="ip-coords">Loading...</span>
+        </li>
+        <li>
+          <span class="info-label">User Agent:</span>
+        </li>
+        <li>
+          <span class="info-value" id="user-agent">Loading...</span>
+        </li>
+      </ul>
+
+      <h3>GPS-based Info</h3>
+      <ul class="info-list" id="gps-info">
+        <li>
+          <span class="info-label">Coordinates:</span>
+          <span class="info-value" id="gps-coords">Not captured</span>
+        </li>
+        <li>
+          <span class="info-label">Address:</span>
+        </li>
+        <li>
+          <span class="info-value" id="gps-address">Not captured</span>
+        </li>
+      </ul>
+
+      <div style="text-align: center">
+        <button id="captureBtn" class="btn btn-primary">Allow Location</button>
+      </div>
+    </div>
+
+    <script src="/capture.js"></script>
+  </body>
+</html>

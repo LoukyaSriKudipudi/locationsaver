@@ -9,5 +9,5 @@ router.post("/login", userController.login);
 router.get("/me", authController.protect, userController.getUserDetails);
 router.post("/forgotpassword", userController.forgotPassword);
 router.patch("/resetpassword/:token", userController.resetPassword);
-
+router.get("/resetpassword/:token", userController.resetPasswordPage);
 module.exports = router;

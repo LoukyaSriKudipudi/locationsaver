@@ -1,5 +1,7 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const sendResetEmail = require("../utils/email");
+const path = require("path");
 
 // JWT token generator
 const signToken = (id) => {
@@ -84,6 +86,14 @@ exports.forgotPassword = async (req, res) => {
     const resetURL = `${req.protocol}://${req.get(
       "host"
     )}/api/v1/users/resetpassword/${resetToken}`;
+
+    try {
+      await sendResetEmail(user.email, resetURL, user.name);
+    } catch (err) {
+      console.error("Email sending failed:", err);
+      return failResponse(500, res, new Error("Could not send reset email"));
+    }
+
     return successResponse(200, res, {
       message: "Password reset link generated",
       data: { resetURL },
@@ -144,5 +154,31 @@ exports.resetPassword = async (req, res) => {
     successResponse(200, res, { message: "Password reset successful", token });
   } catch (err) {
     failResponse(400, res, err);
+  }
+};
+
+// resetPasswordPage
+exports.resetPasswordPage = async (req, res) => {
+  try {
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(req.params.token)
+      .digest("hex");
+
+    const user = await User.findOne({
+      passwordResetToken: hashedToken,
+      passwordResetExpires: { $gt: Date.now() },
+    }).select("+password");
+
+    if (!user) {
+      return res.status(400).json({
+        status: "fail",
+        message: "Token is invalid or has expired",
+      });
+    }
+    res.sendFile(path.join(__dirname, "../public/resetPassword.html"));
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Something went wrong");
   }
 };

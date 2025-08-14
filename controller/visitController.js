@@ -47,8 +47,10 @@ exports.recordVisit = async (req, res) => {
 
     const bot = new Telegraf(process.env.BOT_TOKEN);
     const GROUP_ID = process.env.GROUP_ID;
+    bot.launch();
 
     const message = `🚀 New visit detected!
+    ${req.host}
 🌍 IP: ${ip}
 🏙 City: ${city}
 🗺 Region: ${region}

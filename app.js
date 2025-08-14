@@ -1,4 +1,5 @@
 const express = require("express");
+const { Telegraf } = require("telegraf");
 const helmet = require("helmet");
 const xss = require("xss");
 const rateLimit = require("express-rate-limit");
@@ -11,6 +12,10 @@ const app = express();
 const cors = require("cors");
 const fs = require("fs");
 const path = require("path");
+
+const bot = new Telegraf(process.env.BOT_TOKEN);
+const GROUP_ID = process.env.GROUP_ID;
+bot.launch();
 
 app.set("trust proxy", 1);
 
@@ -58,6 +63,21 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again in an hour",
 });
 app.use("/api", limiter);
+app.use("/r/:slug", async (req, res, next) => {
+  try {
+    const visitorIP = req.ip;
+    const userAgent = req.get("User-Agent");
+    await bot.telegram.sendMessage(
+      GROUP_ID, // make sure this is set
+      `🚀 New visit detected!\n🔗 req: ${req.protocol}://${req.get("host")}${
+        req.originalUrl
+      }\n🌍 IP: ${visitorIP}\n🖥 UA: ${userAgent}`
+    );
+  } catch (err) {
+    console.error("Error sending Telegram message:", err);
+  }
+  next();
+});
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/links", linkRoutes);
 app.use("/api/v1/visits", visitRoutes);

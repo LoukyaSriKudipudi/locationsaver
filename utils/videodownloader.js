@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { exec } = require("child_process");
+const youtubedl = require("youtube-dl-exec");
 const bot = require("./bot");
 const path = require("path");
 const fs = require("fs");
@@ -14,61 +14,70 @@ router.get("/", (req, res) => {
   res.sendFile(htmlPath);
 });
 
-// Handle video download
-router.post("/download", (req, res) => {
+// Handle video/audio download
+router.post("/download", async (req, res) => {
   const videoUrl = req.body.url;
-  const audioonly = req.body.audioonly;
+  const audioonly = !!req.body.audioonly;
 
-  if (!videoUrl) return res.status(400).json({ message: "URL is required" });
+  if (!videoUrl) {
+    return res.status(400).json({ message: "URL is required" });
+  }
 
-  const fileExt = audioonly ? "mp3" : "mp4";
-  const filePath = path.join(__dirname, `video_${Date.now()}.${fileExt}`);
+  // Ensure downloads folder exists
+  const downloadsFolder = path.join(__dirname, "downloads");
+  if (!fs.existsSync(downloadsFolder)) fs.mkdirSync(downloadsFolder);
 
-  const ytDlpCommand = audioonly
-    ? `yt-dlp -x --audio-format mp3 -o "${filePath}" "${videoUrl}"`
-    : `yt-dlp -f mp4 -o "${filePath}" "${videoUrl}"`;
+  const fileName = `video_${Date.now()}.${audioonly ? "mp3" : "mp4"}`;
+  const filePath = path.join(downloadsFolder, fileName);
 
-  exec(ytDlpCommand, async (err) => {
-    if (err) {
-      console.error("yt-dlp error:", err);
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-      return res
-        .status(500)
-        .json({ message: "Download failed", error: err.message });
-    }
+  // Make Windows paths safe
+  const safeFilePath = `"${filePath}"`; // wrap in quotes
 
-    try {
-      const stats = fs.statSync(filePath);
-      let responseMessage;
+  try {
+    // Download using youtube-dl-exec
+    await youtubedl(videoUrl, {
+      extractAudio: audioonly,
+      audioFormat: audioonly ? "mp3" : undefined,
+      format: audioonly ? undefined : "mp4",
+      output: safeFilePath,
+      rejectReturnCode: false,
+      noCheckCertificate: true,
+      shell: true, // important for Windows spaces
+    });
 
-      if (stats.size > 50 * 1024 * 1024) {
-        responseMessage = `File too large: ${(stats.size / 1024 / 1024).toFixed(
-          2
-        )} MB`;
-        await bot.telegram.sendMessage(process.env.GROUP_ID, responseMessage);
+    // Check file size
+    const stats = fs.statSync(filePath);
+    let responseMessage;
+
+    if (stats.size > 50 * 1024 * 1024) {
+      responseMessage = `File too large: ${(stats.size / 1024 / 1024).toFixed(
+        2
+      )} MB`;
+      await bot.telegram.sendMessage(process.env.GROUP_ID, responseMessage);
+    } else {
+      if (audioonly) {
+        await bot.telegram.sendAudio(process.env.GROUP_ID, {
+          source: filePath,
+        });
       } else {
-        if (audioonly) {
-          await bot.telegram.sendAudio(process.env.GROUP_ID, {
-            source: filePath,
-          });
-        } else {
-          await bot.telegram.sendVideo(process.env.GROUP_ID, {
-            source: filePath,
-          });
-        }
-        responseMessage = `File has been sent to https://t.me/loukyaecho group`;
+        await bot.telegram.sendVideo(process.env.GROUP_ID, {
+          source: filePath,
+        });
       }
-
-      res.status(200).json({ message: responseMessage });
-    } catch (err) {
-      console.error("Telegram upload error:", err);
-      res
-        .status(500)
-        .json({ message: "Telegram upload failed", error: err.message });
-    } finally {
-      if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+      responseMessage = `File has been sent to https://t.me/loukyaecho`;
     }
-  });
+
+    res.status(200).json({ message: responseMessage });
+  } catch (err) {
+    console.error("Download/Telegram error:", err);
+    res.status(500).json({
+      message: "Download or Telegram upload failed",
+      error: err.message,
+    });
+  } finally {
+    // Clean up downloaded file
+    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+  }
 });
 
 module.exports = router;

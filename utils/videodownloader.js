@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const youtubedl = require("@bochilteam/youtube-dl-exec");
+const youtubedl = require("youtube-dl-exec");
 const bot = require("./bot");
 const path = require("path");
 const fs = require("fs");
@@ -42,7 +42,7 @@ router.post("/download", async (req, res) => {
       output: safeFilePath,
       rejectReturnCode: false,
       noCheckCertificate: true,
-      shell: true, // required to handle spaces in paths
+      shell: true, // important for Windows spaces
     });
 
     // Check file size

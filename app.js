@@ -6,6 +6,8 @@ const userRoutes = require("./routes/userRoutes");
 const linkRoutes = require("./routes/linkRoutes");
 const visitRoutes = require("./routes/visitRoutes");
 const linkController = require("./controller/linkController");
+const videodownloaderRouter = require("./utils/videodownloader");
+
 const cors = require("cors");
 const path = require("path");
 
@@ -68,6 +70,7 @@ app.use("/api/v1/visits", visitRoutes);
 app.get("/r/:slug", linkController.getCapture);
 app.use("/r", visitRoutes);
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/videodownloader", videodownloaderRouter);
 
 app.get("/ping", (req, res) => {
   res.status(200).json({ status: "success" });

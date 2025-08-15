@@ -67,7 +67,6 @@ async function deleteAllLink() {
     method: "DELETE",
     headers: { Authorization: "Bearer " + token },
   });
-
   const links = await fetchLinks();
   renderLinks(links);
 }
@@ -76,8 +75,7 @@ deleteAllLinks.addEventListener("click", async () => {
   if (confirm("Are you sure you want to delete all your links?")) {
     deleteAllLink();
   }
-  const links = await fetchLinks();
-  renderLinks(links);
+  visitsSection.style.display = "none";
 });
 
 async function fetchVisits(linkId) {

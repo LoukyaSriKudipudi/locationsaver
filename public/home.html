@@ -38,7 +38,18 @@
           />
           <button type="submit" class="btn-primary">Create Link</button>
         </form>
-
+        <section id="searchcontainer">
+          <input
+            type="text"
+            id="search"
+            placeholder="Search Link"
+            aria-required="true"
+          />
+          <button id="sortVisits">
+            Sort by Visits <span id="sortArrow">⬆️</span>
+          </button>
+          <button type="submit" id="deleteAllLinks">Delete All Links</button>
+        </section>
         <ul
           id="linksList"
           aria-live="polite"

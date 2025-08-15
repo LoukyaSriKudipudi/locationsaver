@@ -13,6 +13,8 @@ const selectedLinkTitle = document.getElementById("selectedLinkTitle");
 const createLinkForm = document.getElementById("createLinkForm");
 const titleInput = document.getElementById("title");
 const closeVisitsBtn = document.getElementById("closeVisitsBtn");
+const deleteAllLinks = document.getElementById("deleteAllLinks");
+const sortVisits = document.getElementById("sortVisits");
 
 let currentLinkId = null;
 
@@ -22,14 +24,61 @@ logoutBtn.addEventListener("click", () => {
   window.location.href = "login.html";
 });
 
+let linksCache = [];
+let sortAscending = true;
+
 // API calls
+const search = document.querySelector("#search");
 async function fetchLinks() {
-  const res = await fetch("/api/v1/links", {
-    headers: { Authorization: "Bearer " + token },
-  });
+  const searchValue = search.value;
+  const res = await fetch(
+    `/api/v1/links?search=${encodeURIComponent(searchValue)}`,
+    {
+      headers: { Authorization: "Bearer " + token },
+    }
+  );
+
   const data = await res.json();
+  linksCache = data.data;
+  console.log(data.data);
   return data.data || [];
 }
+
+search.addEventListener("input", async () => {
+  const links = await fetchLinks();
+  renderLinks(links);
+});
+
+sortVisits.addEventListener("click", () => {
+  sortAscending = !sortAscending;
+  document.getElementById("sortArrow").textContent = sortAscending
+    ? "⬆️"
+    : "⬇️";
+
+  const sorted = [...linksCache].sort((a, b) =>
+    sortAscending ? a.visitCount - b.visitCount : b.visitCount - a.visitCount
+  );
+
+  renderLinks(sorted);
+});
+
+async function deleteAllLink() {
+  await fetch("/api/v1/links", {
+    method: "DELETE",
+    headers: { Authorization: "Bearer " + token },
+  });
+
+  const links = await fetchLinks();
+  renderLinks(links);
+}
+
+deleteAllLinks.addEventListener("click", async () => {
+  if (confirm("Are you sure you want to delete all your links?")) {
+    deleteAllLink();
+  }
+  const links = await fetchLinks();
+  renderLinks(links);
+});
 
 async function fetchVisits(linkId) {
   const res = await fetch(`/api/v1/links/${linkId}/visits?limit=20`, {

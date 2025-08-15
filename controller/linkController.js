@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const Link = require("../models/linkModel");
 const path = require("path");
 const Visit = require("../models/visitModel");
+const { options } = require("../app");
 
 // create link
 exports.createLink = async (req, res) => {
@@ -51,7 +52,14 @@ exports.getCapture = async (req, res) => {
 // GET user links with visit count
 exports.getUserLinks = async (req, res) => {
   try {
-    const links = await Link.find({ ownerId: req.user._id }).lean();
+    const search = req.query.search.trim() || "";
+
+    const query = { ownerId: req.user._id };
+    if (search) {
+      query.title = { $regex: search, $options: "i" };
+    }
+
+    const links = await Link.find(query).lean();
 
     // Add visit counts for each link
     const linksWithCounts = await Promise.all(
@@ -86,6 +94,20 @@ exports.deleteUserLink = async (req, res) => {
     await Visit.deleteMany({ link: link._id });
 
     res.status(200).json({ status: "success", data: link });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+};
+
+exports.deleteAllLinks = async (req, res) => {
+  try {
+    const links = await Link.find({ ownerId: req.user._id });
+    const linkIds = links.map((link) => link._id);
+
+    await Visit.deleteMany({ link: { $in: linkIds } });
+    await Link.deleteMany({ ownerId: req.user._id });
+
+    res.status(204).json({ status: "success" });
   } catch (err) {
     res.status(500).json({ status: "error", message: err.message });
   }

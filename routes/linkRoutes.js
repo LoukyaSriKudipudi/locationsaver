@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/createlink", authController.protect, linkController.createLink);
 router.get("/", authController.protect, linkController.getUserLinks);
+router.delete("/", authController.protect, linkController.deleteAllLinks);
 router.delete("/:id", authController.protect, linkController.deleteUserLink);
 router.get(
   "/:id/visits",

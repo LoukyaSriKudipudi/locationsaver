@@ -103,6 +103,48 @@ body {
   border-radius: 6px;
   font-size: 1rem;
 }
+#searchcontainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (orientation: portrait) {
+  #searchcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+#search,
+#deleteAllLinks,
+#sortVisits,
+.clear {
+  justify-content: center;
+  /* width: 60%; */
+  padding: 0.7rem 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+@media (orientation: portrait) {
+  #search,
+  #deleteAllLinks,
+  #sortVisits {
+    justify-content: center;
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
 
 #createLinkForm input[type="text"]:focus {
   outline: none;

@@ -6,17 +6,20 @@ const userRoutes = require("./routes/userRoutes");
 const linkRoutes = require("./routes/linkRoutes");
 const visitRoutes = require("./routes/visitRoutes");
 const linkController = require("./controller/linkController");
+const cors = require("cors");
+const path = require("path");
+
+// Load and launch bot once
+require("./utils/bot");
 
 const app = express();
-const cors = require("cors");
-const fs = require("fs");
-const path = require("path");
 
 app.set("trust proxy", 1);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
 // Security middleware
 app.use(helmet());
 app.use(
@@ -39,9 +42,9 @@ app.use((req, res, next) => {
   const sanitize = (obj) => {
     for (let key in obj) {
       if (typeof obj[key] === "string") {
-        obj[key] = xss(obj[key]); // clean string
+        obj[key] = xss(obj[key]);
       } else if (typeof obj[key] === "object" && obj[key] !== null) {
-        sanitize(obj[key]); // recursively sanitize objects
+        sanitize(obj[key]);
       }
     }
   };
@@ -67,9 +70,7 @@ app.use("/r", visitRoutes);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/ping", (req, res) => {
-  res.status(200).json({
-    status: "success",
-  });
+  res.status(200).json({ status: "success" });
 });
 
 module.exports = app;

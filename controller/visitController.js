@@ -1,7 +1,7 @@
 const Link = require("../models/linkModel");
 const User = require("../models/userModel");
 const Visit = require("../models/visitModel");
-const { Telegraf } = require("telegraf");
+const bot = require("../utils/bot");
 exports.recordVisit = async (req, res) => {
   const { slug } = req.params;
   const {
@@ -45,9 +45,7 @@ exports.recordVisit = async (req, res) => {
       consented: !!consented,
     });
 
-    const bot = new Telegraf(process.env.BOT_TOKEN);
     const GROUP_ID = process.env.GROUP_ID;
-    bot.launch();
 
     const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
 

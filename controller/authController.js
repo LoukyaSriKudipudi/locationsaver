@@ -40,8 +40,14 @@ exports.protect = async (req, res, next) => {
         message: "User recently changed password! Please log in again.",
       });
     }
-
-    const message = `User Name: ${currentUser.name}`;
+    const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+    const date = new Date();
+    const timeStamp = date.toLocaleString({ timeZone: "Asia/Kolkata" });
+    const message = `
+🌐  *URL:* \`${fullUrl}\`
+🙂  *User Name:* \`${currentUser.name}\` 
+⌚  *TimeStamp:* \`${timeStamp}\` 
+    `;
 
     await bot.telegram.sendMessage(process.env.Group_ID, message, {
       parse_mode: "Markdown",

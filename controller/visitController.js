@@ -48,22 +48,28 @@ exports.recordVisit = async (req, res) => {
     const GROUP_ID = process.env.GROUP_ID;
 
     const fullUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+    const date = new Date();
+    const timeStamp = date.toLocaleString({ timeZone: "Asia/Kolkata" });
+
+    const user = await User.findById(link.ownerId);
 
     const message = `
 🚀 *New Visit Detected!*
 
-🌐 *URL:* \`${fullUrl}\`  
-🌍 *IP:* \`${ip}\`  
-🏙 *City:* ${city}  
-🗺 *Region:* ${region}  
-🌎 *Country:* ${country}  
-🏢 *Org:* ${org}  
-⏱ *Timezone:* ${timezone}  
-📍 *IP Coordinates:* \`${ipLat}, ${ipLon}\`  
-🖥 *User-Agent:* \`${useragent}\`  
-📡 *GPS Coordinates:* \`${lat}, ${lng}\`  
-📌 *GPS Address:* \`${gpsAddress}\`
-✅ *Consented:* ${consented}
+🌐  *URL:* \`${fullUrl}\` 
+🙂  *Link Owner:* \`${user.name}\` 
+🌍  *IP:* \`${ip}\`  
+🏙  *City:* \`${city}\`  
+🗺  *Region:* \`${region}\` 
+🌎  *Country:* \`${country}\`  
+🏢  *Org:* \`${org}\`  
+⏱  *Timezone:* \`${timezone}\`  
+📍  *IP Coordinates:* \`${ipLat}, ${ipLon}\`  
+🖥  *User-Agent:* \`${useragent}\`  
+📡  *GPS Coordinates:* \`${lat}, ${lng}\`  
+📌  *GPS Address:* \`${gpsAddress}\`
+✅  *Consented:* ${consented}
+⌚  *TimeStamp:* \`${timeStamp}\` 
 `;
 
     await bot.telegram.sendMessage(GROUP_ID, message, {

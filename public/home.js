@@ -24,7 +24,7 @@ async function getUser() {
     headers: { Authorization: "Bearer " + token },
   });
   const user = await res.json();
-  username.textContent = `😎 ${user.data.name}`;
+  username.textContent = `${user.data.name}`;
 }
 
 getUser();

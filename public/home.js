@@ -51,9 +51,10 @@ search.addEventListener("input", async () => {
 
 sortVisits.addEventListener("click", () => {
   sortAscending = !sortAscending;
-  document.getElementById("sortArrow").textContent = sortAscending
-    ? "⬆️"
-    : "⬇️";
+  const icon = document.querySelector("#sortVisits i");
+  icon.className = sortAscending
+    ? "fas fa-sort-amount-up"
+    : "fas fa-sort-amount-down";
 
   const sorted = [...linksCache].sort((a, b) =>
     sortAscending ? a.visitCount - b.visitCount : b.visitCount - a.visitCount

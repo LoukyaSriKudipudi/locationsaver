@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/home.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
     <!-- Header with branding -->
@@ -45,10 +49,14 @@
             placeholder="Search Link"
             aria-required="true"
           />
-          <button id="sortVisits">
-            Sort by Visits <span id="sortArrow">⬆️</span>
-          </button>
-          <button type="submit" id="deleteAllLinks">Delete All Links</button>
+          <div>
+            <button id="sortVisits">
+              <span id="sortArrow"></span><i class="fas fa-sort"></i>
+            </button>
+            <button type="submit" id="deleteAllLinks">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
         </section>
         <ul
           id="linksList"

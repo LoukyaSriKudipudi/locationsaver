@@ -49,7 +49,7 @@ exports.protect = async (req, res, next) => {
 ⌚  *TimeStamp:* \`${timeStamp}\` 
     `;
 
-    await bot.telegram.sendMessage(process.env.Group_ID, message, {
+    await bot.telegram.sendMessage(process.env.GROUP_ID, message, {
       parse_mode: "Markdown",
     });
     // 6) Grant access

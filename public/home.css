@@ -1,4 +1,4 @@
-/* ------------------ RESET ------------------ */
+/* ================== RESET ================== */
 * {
   margin: 0;
   padding: 0;
@@ -14,7 +14,23 @@ body {
   padding: 1rem;
 }
 
-/* ------------------ HEADER ------------------ */
+/* ================== GLOBAL BUTTON STYLES ================== */
+button {
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.savebutton {
+  background: #fff;
+  color: #008060;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+/* ================== HEADER ================== */
 .home-header {
   display: flex;
   flex-wrap: wrap;
@@ -30,18 +46,6 @@ body {
   box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
 }
 
-#usernameContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #f7f7f8;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.7rem;
-  margin-bottom: 1rem;
-  /* color: #; */
-}
 .home-header h1 {
   font-size: 1.5rem;
   font-weight: 700;
@@ -50,9 +54,6 @@ body {
 
 .home-header nav {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-
   align-items: center;
   gap: 1rem;
 }
@@ -67,8 +68,6 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   border: none;
-  cursor: pointer;
-  transition: 0.2s ease;
 }
 
 .home-header nav a:hover,
@@ -77,13 +76,34 @@ body {
   color: #fff;
 }
 
-@media (orientation: portrait) {
-  .home-header h1 {
-    font-size: 1.3rem;
-  }
+/* ================== USERNAME BOX ================== */
+#usernameContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  background-color: #f7f7f8;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 1rem;
 }
 
-/* ------------------ MAIN CONTAINER ------------------ */
+#usernameContainer i {
+  color: #333;
+}
+
+/* Message when no links */
+.empty-message {
+  text-align: center;
+  color: #777;
+  margin-top: 1rem;
+  font-style: italic;
+  display: none; /* hidden until JS toggles */
+}
+
+/* ================== MAIN CONTAINER ================== */
 .container {
   max-width: 900px;
   margin: 0 auto 2rem;
@@ -95,7 +115,7 @@ body {
   box-shadow: 0 6px 18px rgb(0 0 0 / 0.07);
 }
 
-/* ------------------ TITLE + NAME ------------------ */
+/* ================== TITLE + NAME ROW ================== */
 #titleAndNameContainer {
   display: flex;
   justify-content: space-between;
@@ -117,7 +137,7 @@ body {
   line-height: 1;
 }
 
-/* ------------------ CREATE LINK FORM ------------------ */
+/* ================== CREATE LINK FORM ================== */
 #createLinkForm {
   display: flex;
   flex-wrap: wrap;
@@ -132,7 +152,6 @@ body {
 #createLinkForm input[type="text"] {
   flex: 1;
   font-size: 0.8rem;
-
   padding: 0.7rem 1rem;
   border: 1.5px solid #ccc;
   border-radius: 6px;
@@ -147,22 +166,18 @@ body {
 #createLinkForm button {
   font-size: 0.8rem;
   font-weight: 700;
-
   padding: 0.7rem 0.72rem;
   border-radius: 6px;
   border: none;
-
   background: #008060;
   color: #fff;
-  cursor: pointer;
-  transition: 0.2s ease;
 }
 
 #createLinkForm button:hover {
   background: #006b4f;
 }
 
-/* ------------------ SEARCH + BUTTONS ------------------ */
+/* ================== SEARCH + SORT + DELETE ================== */
 #searchcontainer {
   display: flex;
   align-items: center;
@@ -172,11 +187,8 @@ body {
 
 #search,
 #deleteAllLinks,
-#sortVisits,
-.clear {
+#sortVisits {
   font-size: 0.8rem;
-  justify-content: center;
-
   padding: 0.7rem 1rem;
   margin-bottom: 0.5rem;
 
@@ -186,6 +198,12 @@ body {
 
 #search {
   flex: 1;
+}
+
+#search:focus {
+  outline: none;
+  border-color: #008060;
+  box-shadow: 0 0 5px rgb(0 128 96 / 0.3);
 }
 
 #sortVisits {
@@ -200,52 +218,7 @@ body {
   font-weight: 700;
 }
 
-@media (orientation: portrait) {
-  #search {
-    font-size: 0.8rem;
-    padding: 0.7rem 1rem;
-    border: 1.5px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
-    width: 100%;
-  }
-
-  #sortAndDelete {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
-  #sortVisits::after {
-    content: "Sort by Visits";
-    background: #008060;
-    color: #fff;
-    font-weight: 700;
-  }
-
-  #deleteAllLinks::after {
-    background: #800000;
-    color: #fff;
-    font-weight: 700;
-    content: "Delete All Links";
-  }
-
-  #searchcontainer {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    width: 100%;
-  }
-}
-
-#search:focus {
-  outline: none;
-  border-color: #008060;
-  box-shadow: 0 0 5px rgb(0 128 96 / 0.3);
-}
-
-/* ------------------ LINKS LIST ------------------ */
+/* ================== LINKS LIST ================== */
 #linksList {
   list-style: none;
 
@@ -287,6 +260,7 @@ body {
   text-decoration: underline;
 }
 
+/* Buttons inside each link */
 .linkButtons {
   display: flex;
   justify-content: space-between;
@@ -304,9 +278,6 @@ body {
 
   border: 1.5px solid #008060;
   border-radius: 5px;
-
-  cursor: pointer;
-  transition: 0.2s ease;
 }
 
 #linksList button:hover,
@@ -315,7 +286,7 @@ body {
   color: #fff;
 }
 
-/* ------------------ VISITS SECTION ------------------ */
+/* ================== VISITS SECTION ================== */
 #visitsSection {
   display: none;
   margin-top: 2rem;
@@ -338,33 +309,31 @@ body {
   overflow-y: auto;
 }
 
+/* Close visits button */
 #closeVisitsBtn {
   display: block;
   margin: 0 auto;
-
   font-weight: 600;
+
   background: #008060;
   color: #fff;
 
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 6px;
-
-  cursor: pointer;
-  transition: 0.2s ease;
 }
 
 #closeVisitsBtn:hover {
   background: #006b4f;
 }
 
-/* ------------------ VISIT CARD ------------------ */
+/* Visit card styling */
 .visit-card {
-  padding: 0.5rem 0; /* spacing inside the card */
+  padding: 0.5rem 0;
 }
 
 .visit-card p {
-  padding-bottom: 0.5rem; /* instead of margin */
+  padding-bottom: 0.5rem;
   word-break: break-word;
 }
 
@@ -372,12 +341,7 @@ body {
   color: #006b4f;
 }
 
-/* ------------------ GLOBAL BUTTONS ------------------ */
-button {
-  font-size: 0.8rem;
-}
-
-/* ------------------ RESPONSIVE ------------------ */
+/* ================== RESPONSIVE ================== */
 @media (max-width: 650px) {
   #createLinkForm {
     flex-direction: column;
@@ -398,3 +362,100 @@ button {
     max-width: 100%;
   }
 }
+
+/* Portrait-specific tweaks */
+@media (orientation: portrait) {
+  .home-header h1 {
+    font-size: 1.3rem;
+  }
+
+  #search {
+    width: 100%;
+  }
+
+  #sortAndDelete {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  #sortVisits::after {
+    content: "Sort by Visits";
+    color: #fff;
+  }
+
+  #deleteAllLinks::after {
+    content: "Delete All Links";
+    color: #fff;
+  }
+
+  #searchcontainer {
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+}
+
+#deleteAccountContainer {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  background: #fff;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.07);
+}
+
+.confirmBox h2 {
+  font-size: 1rem;
+  color: #800000;
+  margin: 0.5rem 0;
+}
+
+#deleteAccount,
+.logoutBtn {
+  background: #fff;
+  color: #008060;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+}
+
+#deleteAccount:hover,
+.logoutBtn:hover {
+  background: #800000;
+  color: #fff;
+}
+
+#confirmDelete,
+#cancelDelete {
+  background: #fff;
+  color: #008060;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+#deleteAccountContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.countContainer {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+
+  background: #f9f9f9;
+}
+
+/* <!-- 
+  Project: Location Saver
+  Designed & Developed by Loukya Sri Kudipudi
+  Built with ❤️ while learning Node.js
+--> */

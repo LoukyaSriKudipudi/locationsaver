@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const Link = require("../models/linkModel");
+const Visit = require("../models/visitModel");
 const jwt = require("jsonwebtoken");
 const sendResetEmail = require("../utils/email");
 const path = require("path");
@@ -21,6 +23,28 @@ exports.getUser = async (req, res) => {
     status: "success",
     data: user,
   });
+};
+
+// edit user
+exports.editUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "User not found" });
+    }
+
+    user.name = req.body.newName;
+    await user.save({ validateBeforeSave: false }); // use boolean false
+
+    res.status(200).json({
+      status: "success",
+      data: { name: user.name },
+    });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
 };
 
 // Unified success response
@@ -193,5 +217,73 @@ exports.resetPasswordPage = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Something went wrong");
+  }
+};
+
+// delete user
+// Show what will be deleted (preview only)
+exports.deletePreview = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "User not found" });
+    }
+
+    // Get all links owned by the user
+    const links = await Link.find({ ownerId: req.user._id });
+    const linkIds = links.map((link) => link._id);
+
+    // Count related visits (don’t delete yet)
+    // Count related visits (don’t delete yet)
+    let visitsCount = 0;
+    if (linkIds.length > 0) {
+      visitsCount = await Visit.countDocuments({ link: { $in: linkIds } });
+    }
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        username: user.name,
+        totalLinks: links.length,
+        totalVisits: visitsCount,
+        note: "Deleting your account will remove all your links and their visits permanently. This action cannot be undone.",
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: "Something went wrong" });
+  }
+};
+
+// Actually delete the account
+exports.deleteAccount = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "fail", message: "User not found" });
+    }
+
+    // Get all links owned by the user
+    const links = await Link.find({ ownerId: req.user._id });
+    const linkIds = links.map((link) => link._id);
+
+    // Delete visits related to those links
+    await Visit.deleteMany({ link: { $in: linkIds } });
+
+    // Delete all links
+    await Link.deleteMany({ ownerId: req.user._id });
+
+    // Delete the user account
+    await User.findByIdAndDelete(req.user._id);
+
+    res.status(200).json({
+      status: "success",
+      message: "User account and all related data deleted permanently.",
+    });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: "Something went wrong" });
   }
 };

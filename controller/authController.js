@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
-
+const bot = require("../utils/bot");
 exports.protect = async (req, res, next) => {
   try {
     let token;
@@ -41,8 +41,14 @@ exports.protect = async (req, res, next) => {
       });
     }
 
+    const message = `User Name: ${currentUser.name}`;
+
+    await bot.telegram.sendMessage(process.env.Group_ID, message, {
+      parse_mode: "Markdown",
+    });
     // 6) Grant access
     req.user = currentUser;
+
     next();
   } catch (err) {
     console.error("JWT Protect Error:", err.message);
@@ -57,3 +63,9 @@ exports.protect = async (req, res, next) => {
     });
   }
 };
+
+// <!--
+//   Project: Location Saver
+//   Designed & Developed by Loukya Sri Kudipudi
+//   Built with ❤️ while learning Node.js
+// -->

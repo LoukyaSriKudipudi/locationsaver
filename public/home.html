@@ -16,7 +16,7 @@
     <header class="home-header">
       <h1>Location Saver</h1>
       <nav>
-        <button id="logoutBtn" title="Log Out" class="btn-logout">
+        <button class="logoutBtn" title="Log Out" class="btn-logout">
           <i class="fas fa-sign-out"></i>
         </button>
       </nav>
@@ -24,18 +24,20 @@
 
     <!-- Links Section -->
     <main class="container">
+      <!-- Username Section -->
       <div id="usernameContainer">
-        <p class="fa-solid fa-user"></p>
+        <i class="fa-solid fa-user"></i>
         <p id="username"></p>
       </div>
+
+      <!-- Links Section -->
       <section
         class="links-section"
         aria-label="Create new link and list of links"
       >
-        <div id="titleAndNameContainer">
-          <h2>Your Links</h2>
-        </div>
+        <h2>Manage Your Links</h2>
 
+        <!-- Create Link Form -->
         <form
           id="createLinkForm"
           autocomplete="off"
@@ -50,6 +52,8 @@
           />
           <button type="submit" class="btn-primary">Create Link</button>
         </form>
+
+        <!-- Search + Sort + Delete -->
         <section id="searchcontainer">
           <input
             type="text"
@@ -58,19 +62,26 @@
             aria-required="true"
           />
           <div id="sortAndDelete">
-            <button id="sortVisits">
-              <span id="sortArrow"></span><i class="fas fa-sort"></i>
+            <button id="sortVisits" title="Sort by visits">
+              <i class="fas fa-sort"></i>
             </button>
-            <button type="submit" id="deleteAllLinks">
+            <button type="submit" id="deleteAllLinks" title="Delete all links">
               <i class="fas fa-trash"></i>
             </button>
           </div>
         </section>
+
+        <!-- Links List -->
         <ul
           id="linksList"
           aria-live="polite"
           aria-relevant="additions removals"
         ></ul>
+
+        <!-- Empty State Message -->
+        <p id="emptyMessage" class="empty-message">
+          No links yet. Create your first one above!
+        </p>
       </section>
 
       <!-- Visits Section -->
@@ -85,7 +96,16 @@
         <button id="closeVisitsBtn" class="btn-primary">Close</button>
       </section>
     </main>
-
+    <footer>
+      <section id="deleteAccountContainer">
+        <button id="deleteAccount">Delete Account</button>
+        <button class="logoutBtn">Logout</button>
+      </section>
+    </footer>
     <script src="/home.js"></script>
   </body>
 </html>
+
+<!-- Project: Location Saver
+  Designed & Developed by Loukya Sri Kudipudi
+  Built with ❤️ while learning Node.js -->

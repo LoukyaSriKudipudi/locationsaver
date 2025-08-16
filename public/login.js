@@ -41,3 +41,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     messageEl.textContent = "Error connecting to server. Try again later.";
   }
 });
+
+//   Project: Location Saver
+//   Designed & Developed by Loukya Sri Kudipudi
+//   Built with ❤️ while learning Node.js

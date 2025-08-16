@@ -15,3 +15,7 @@ forgotPasswordBtn.addEventListener("click", async () => {
       "We've sent an email to you containing instructions to reset your password.";
   }
 });
+
+//   Project: Location Saver
+//   Designed & Developed by Loukya Sri Kudipudi
+//   Built with ❤️ while learning Node.js

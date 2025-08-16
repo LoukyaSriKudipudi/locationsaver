@@ -2,7 +2,6 @@ const crypto = require("crypto");
 const Link = require("../models/linkModel");
 const path = require("path");
 const Visit = require("../models/visitModel");
-const { options } = require("../app");
 
 // create link
 exports.createLink = async (req, res) => {
@@ -105,6 +104,7 @@ exports.deleteAllLinks = async (req, res) => {
     const linkIds = links.map((link) => link._id);
 
     await Visit.deleteMany({ link: { $in: linkIds } });
+
     await Link.deleteMany({ ownerId: req.user._id });
 
     res.status(204).json({ status: "success" });

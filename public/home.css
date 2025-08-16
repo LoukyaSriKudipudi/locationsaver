@@ -117,10 +117,6 @@ body {
   line-height: 1;
 }
 
-#username {
-  word-spacing: 1.5;
-}
-
 /* ------------------ CREATE LINK FORM ------------------ */
 #createLinkForm {
   display: flex;
@@ -211,12 +207,34 @@ body {
     border: 1.5px solid #ccc;
     border-radius: 6px;
     margin-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  #sortAndDelete {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  #sortVisits::after {
+    content: "Sort by Visits";
+    background: #008060;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  #deleteAllLinks::after {
+    background: #800000;
+    color: #fff;
+    font-weight: 700;
+    content: "Delete All Links";
   }
 
   #searchcontainer {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 0.5rem;
+
     width: 100%;
   }
 }

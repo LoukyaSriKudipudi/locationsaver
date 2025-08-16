@@ -147,6 +147,8 @@ async function showDeleteConfirmation() {
       });
 
       if (delRes.ok) {
+        localStorage.removeItem("token");
+
         alert("Your account and all data have been deleted permanently.");
         window.location.href = "/signup.html"; // redirect to login
       } else {
@@ -301,8 +303,9 @@ async function loadVisits(linkId) {
         <p title="${v.useragent || "N/A"}"><strong>User Agent:</strong> ${
         v.useragent || "N/A"
       }</p>
-        <button data-id="${v._id}" class="deleteVisitBtn">Delete</button>
-      `;
+        <button style=" position: absolute; top: 10px; right: 10px; background-color: #800000; border: none; color: white; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; " data-id="${
+          v._id
+        }" class="deleteVisitBtn">Delete</button>      `;
     } else {
       card.innerHTML = `
         <p><strong>Latitude & Longitude:</strong> ${
@@ -322,7 +325,9 @@ async function loadVisits(linkId) {
       }&z=14&output=embed"
           allowfullscreen>
         </iframe>
-        <button data-id="${v._id}" class="deleteVisitBtn">Delete</button>
+          <button style=" position: absolute; top: 10px; right: 10px; background-color: #800000; border: none; color: white; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; " data-id="${
+            v._id
+          }" class="deleteVisitBtn">Delete</button>  
       `;
     }
 

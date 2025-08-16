@@ -7,69 +7,64 @@
     <title>Location Capture</title>
     <link rel="stylesheet" href="/capture.css" />
   </head>
-  <body>
-    <div class="capture-container">
-      <h2>Your Location</h2>
-      <p class="notice">
-        Enable location to get accurate location and address.
-      </p>
-
-      <h3>IP-based Info</h3>
-      <ul class="info-list" id="ip-info">
-        <li>
-          <span class="info-label">IP:</span>
-          <span class="info-value" id="ip">Loading...</span>
-        </li>
-        <li>
-          <span class="info-label">City:</span>
-          <span class="info-value" id="ip-city">Loading...</span>
-        </li>
-        <li>
-          <span class="info-label">Region:</span>
-          <span class="info-value" id="ip-region">Loading...</span>
-        </li>
-        <li>
-          <span class="info-label">Country:</span>
-          <span class="info-value" id="ip-country">Loading...</span>
-        </li>
-        <li>
-          <span class="info-label">Org:</span>
-          <span class="info-value" id="ip-org">Loading...</span>
-        </li>
-        <li>
-          <span class="info-label">Timezone:</span>
-          <span class="info-value" id="ip-timezone">Loading...</span>
-        </li>
-        <li>
-          <span class="info-label">Approx. Coordinates:</span>
-          <span class="info-value" id="ip-coords">Loading...</span>
-        </li>
-        <li>
-          <span class="info-label">User Agent:</span>
-        </li>
-        <li>
-          <span class="info-value" id="user-agent">Loading...</span>
-        </li>
-      </ul>
-
-      <h3>GPS-based Info</h3>
-      <ul class="info-list" id="gps-info">
-        <li>
-          <span class="info-label">Coordinates:</span>
-          <span class="info-value" id="gps-coords">Not captured</span>
-        </li>
-        <li>
-          <span class="info-label">Address:</span>
-        </li>
-        <li>
-          <span class="info-value" id="gps-address">Not captured</span>
-        </li>
-      </ul>
-
-      <div style="text-align: center">
-        <button id="captureBtn" class="btn btn-primary">Allow Location</button>
-      </div>
+  <body class="capture-container">
+    <h2>Your Location</h2>
+    <p class="notice">Enable location to get accurate location and address.</p>
+    <div style="text-align: center">
+      <button id="captureBtn" class="btn btn-primary">Allow Location</button>
     </div>
+
+    <h3>IP-based Info</h3>
+    <ul class="info-list" id="ip-info">
+      <li>
+        <span class="info-label">IP:</span>
+        <span class="info-value" id="ip">Loading...</span>
+      </li>
+      <li>
+        <span class="info-label">City:</span>
+        <span class="info-value" id="ip-city">Loading...</span>
+      </li>
+      <li>
+        <span class="info-label">Region:</span>
+        <span class="info-value" id="ip-region">Loading...</span>
+      </li>
+      <li>
+        <span class="info-label">Country:</span>
+        <span class="info-value" id="ip-country">Loading...</span>
+      </li>
+      <li>
+        <span class="info-label">Org:</span>
+        <span class="info-value" id="ip-org">Loading...</span>
+      </li>
+      <li>
+        <span class="info-label">Timezone:</span>
+        <span class="info-value" id="ip-timezone">Loading...</span>
+      </li>
+      <li>
+        <span class="info-label">Approx. Coordinates:</span>
+        <span class="info-value" id="ip-coords">Loading...</span>
+      </li>
+      <li>
+        <span class="info-label">User Agent:</span>
+      </li>
+      <li>
+        <span class="info-value" id="user-agent">Loading...</span>
+      </li>
+    </ul>
+
+    <h3>GPS-based Info</h3>
+    <ul class="info-list" id="gps-info">
+      <li>
+        <span class="info-label">Coordinates:</span>
+        <span class="info-value" id="gps-coords">Not captured</span>
+      </li>
+      <li>
+        <span class="info-label">Address:</span>
+      </li>
+      <li>
+        <span class="info-value" id="gps-address">Not captured</span>
+      </li>
+    </ul>
 
     <script src="/capture.js"></script>
   </body>

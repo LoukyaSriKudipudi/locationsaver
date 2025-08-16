@@ -16,17 +16,25 @@
     <header class="home-header">
       <h1>Location Saver</h1>
       <nav>
-        <button id="logoutBtn" class="btn-logout">Logout</button>
+        <button id="logoutBtn" class="btn-logout">
+          <i class="fas fa-sign-out"></i>
+        </button>
       </nav>
     </header>
 
     <!-- Links Section -->
     <main class="container">
+      <div id="usernameContainer">
+        <p id="username"></p>
+        <p></p>
+      </div>
       <section
         class="links-section"
         aria-label="Create new link and list of links"
       >
-        <h2>Your Links</h2>
+        <div id="titleAndNameContainer">
+          <h2>Your Links</h2>
+        </div>
 
         <form
           id="createLinkForm"

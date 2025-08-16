@@ -10,6 +10,19 @@ const signToken = (id) => {
   });
 };
 
+// getUser
+exports.getUser = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    res.status(404).json({ status: "fail" });
+  }
+
+  res.status(200).json({
+    status: "success",
+    data: user,
+  });
+};
+
 // Unified success response
 const successResponse = (statusCode, res, { token, data, message }) => {
   const response = { status: "success" };

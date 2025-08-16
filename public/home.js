@@ -15,9 +15,19 @@ const titleInput = document.getElementById("title");
 const closeVisitsBtn = document.getElementById("closeVisitsBtn");
 const deleteAllLinks = document.getElementById("deleteAllLinks");
 const sortVisits = document.getElementById("sortVisits");
+const username = document.getElementById("username");
 
 let currentLinkId = null;
 
+async function getUser() {
+  const res = await fetch("/api/v1/users", {
+    headers: { Authorization: "Bearer " + token },
+  });
+  const user = await res.json();
+  username.textContent = `😎 ${user.data.name}`;
+}
+
+getUser();
 // Logout
 logoutBtn.addEventListener("click", () => {
   localStorage.removeItem("token");
@@ -40,7 +50,6 @@ async function fetchLinks() {
 
   const data = await res.json();
   linksCache = data.data;
-  console.log(data.data);
   return data.data || [];
 }
 

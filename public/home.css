@@ -295,7 +295,6 @@ button {
 #visitsSection h2 {
   font-weight: 700;
   color: #008060;
-  text-align: center;
   margin-bottom: 1rem;
 }
 
@@ -406,10 +405,12 @@ button {
   box-shadow: 0 6px 18px rgb(0 0 0 / 0.07);
 }
 
-#manageYourLinks {
+#manageYourLinks,
+.visitsTitle {
   font-size: 1rem;
   margin-bottom: 0.5rem;
 }
+
 .confirmBox h2 {
   font-size: 1rem;
   color: #800000;

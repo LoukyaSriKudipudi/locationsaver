@@ -4,7 +4,9 @@ useragent.textContent = navigator.userAgent;
 // Send IP data to backend immediately
 async function loadIPInfo() {
   try {
-    const ipData = await fetch("https://ipapi.co/json/").then((r) => r.json());
+    const ipData = await fetch("https://ipwhois.app/json/").then((r) =>
+      r.json()
+    );
 
     // Display on page
     document.getElementById("ip").textContent = ipData.ip || "N/A";

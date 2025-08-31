@@ -30,7 +30,7 @@ app.use(
       defaultSrc: ["'self'"],
       connectSrc: [
         "'self'",
-        "https://ipapi.co",
+        "https://ipwhois.app/",
         "https://nominatim.openstreetmap.org",
       ],
       scriptSrc: ["'self'"],

@@ -7,13 +7,12 @@ async function loadIPInfo() {
     const ipData = await fetch("https://ipwhois.app/json/").then((r) =>
       r.json()
     );
-
+    console.log(ipData);
     // Display on page
     document.getElementById("ip").textContent = ipData.ip || "N/A";
     document.getElementById("ip-city").textContent = ipData.city || "N/A";
     document.getElementById("ip-region").textContent = ipData.region || "N/A";
-    document.getElementById("ip-country").textContent =
-      ipData.country_name || "N/A";
+    document.getElementById("ip-country").textContent = ipData.country || "N/A";
     document.getElementById("ip-org").textContent = ipData.org || "N/A";
     document.getElementById("ip-timezone").textContent =
       ipData.timezone || "N/A";

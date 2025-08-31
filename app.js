@@ -27,20 +27,20 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       frameSrc: [
-        "self",
+        "'self'",
         "https://maps.google.com",
         "https://www.google.com",
         "https://maps.google.com",
         "https://maps.googleapis.com",
       ],
-      defaultSrc: ["self"],
+      defaultSrc: ["'self'"],
       connectSrc: [
         "'self'",
         "https://ipwhois.app/",
         "https://ipapi.co/json/",
         "https://nominatim.openstreetmap.org",
       ],
-      scriptSrc: ["self"],
+      scriptSrc: ["'self'"],
     },
   })
 );

@@ -26,7 +26,13 @@ app.use(helmet());
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      frameSrc: ["'self'", "https://maps.google.com", "https://www.google.com"],
+      frameSrc: [
+        "'self'",
+        "https://maps.google.com",
+        "https://www.google.com",
+        "https://maps.google.com",
+        "https://maps.googleapis.com",
+      ],
       defaultSrc: ["'self'"],
       connectSrc: [
         "'self'",

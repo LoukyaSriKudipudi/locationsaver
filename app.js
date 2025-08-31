@@ -1,6 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
-const xss = require("xss");
+// const xss = require("xss");
 const rateLimit = require("express-rate-limit");
 const userRoutes = require("./routes/userRoutes");
 const linkRoutes = require("./routes/linkRoutes");
@@ -45,22 +45,22 @@ app.use(
   })
 );
 
-// Custom XSS sanitization middleware
-app.use((req, res, next) => {
-  const sanitize = (obj) => {
-    for (let key in obj) {
-      if (typeof obj[key] === "string") {
-        obj[key] = xss(obj[key]);
-      } else if (typeof obj[key] === "object" && obj[key] !== null) {
-        sanitize(obj[key]);
-      }
-    }
-  };
-  sanitize(req.body);
-  sanitize(req.query);
-  sanitize(req.params);
-  next();
-});
+// // Custom XSS sanitization middleware
+// app.use((req, res, next) => {
+//   const sanitize = (obj) => {
+//     for (let key in obj) {
+//       if (typeof obj[key] === "string") {
+//         obj[key] = xss(obj[key]);
+//       } else if (typeof obj[key] === "object" && obj[key] !== null) {
+//         sanitize(obj[key]);
+//       }
+//     }
+//   };
+//   sanitize(req.body);
+//   sanitize(req.query);
+//   sanitize(req.params);
+//   next();
+// });
 
 // Rate limiting
 const limiter = rateLimit({
